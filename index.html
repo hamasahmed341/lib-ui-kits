@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw Rectangle</title>
+    <style>
+        canvas {
+            width: 100%;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <div id="buttonWrapper">
+        <input type="button" id="plus" value="+"><input type="button" id="minus" value="-">
+    </div>
+</div>
+    </div>
+
+    <script>
+
+
+        // document.removeEventListener("wheel", panFunction);
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            var scale = 1.0;
+            let startX, startY, isDrawing = false;
+            var translatePos = {
+                x: canvas.width / 2,
+                y: canvas.height / 2
+            };
+            var scaleMultiplier = 0.9;
+
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            canvas.addEventListener('mousedown', (e) => {
+                startX = e.clientX - canvas.offsetLeft;
+                startY = e.clientY - canvas.offsetTop;
+                
+                draw(scale, e)
+                isDrawing = true;
+            });
+
+            function draw(scale, e) {
+                ctx.lineWidth = 5;
+                // const mouseX = e.clientX - canvas.offsetLeft;
+                // const mouseY = e.clientY - canvas.offsetTop;
+                // const width = mouseX - startX;
+
+                // const height = mouseY - startY;
+                ctx.lineTo(e.clientX, e.clientY);
+                ctx.stroke();
+
+                ctx.scale(scale, scale);
+                // ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.beginPath();
+                ctx.moveTo(e.clientX, e.clientY);
+
+                // ctx.strokeRect(startX, startY, width, height);
+            }
+            document.getElementById("plus").addEventListener("click", function(){
+                    scale /= scaleMultiplier;
+                    draw(scale, translatePos);
+                }, false);
+
+                document.getElementById("minus").addEventListener("click", function(){
+                    scale *= scaleMultiplier;
+                    draw(scale, translatePos);
+                }, false);
+            canvas.addEventListener('mousemove', (e) => {
+                if (isDrawing) {
+                    draw(scale, e)
+                }
+            });
+
+            canvas.addEventListener('mouseup', () => {
+                isDrawing = false;
+                ctx.beginPath();
+            });
+
+            canvas.addEventListener('mouseout', () => {
+                isDrawing = false;
+                ctx.beginPath();
+            });
+
+        })
+
+    </script>
+</body>
+
+</html>

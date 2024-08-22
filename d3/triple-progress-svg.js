@@ -4,9 +4,10 @@ function drawSemicircle(svgId, progress, widths, heights, color) {
     const radius = Math.min(width, height) / 2;
 
     const svg = d3.select(`#${svgId}`)
-        .attr("width", width)
-        .attr("height", height);
-
+        .attr("width", "100%")
+        .attr("height", "100%")
+        .attr("viewBox", `0 0 ${widths} ${heights / 2}`)
+        // .attr("preserveAspectRatio", "xMidYMid meet");
     const arc = d3.arc()
         .innerRadius(radius - 80)
         .outerRadius(radius)
@@ -14,7 +15,9 @@ function drawSemicircle(svgId, progress, widths, heights, color) {
         .endAngle(Math.PI / 2);    // End angle (semicircle)
 
     const g = svg.append("g")
-        .attr("transform", `translate(${width / 2}, ${height})`);
+        // .attr("height", 300)
+        // .attr("width", 300)
+        .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
     g.append("path")
         .attr("class", "arc")
@@ -44,7 +47,7 @@ function drawSemicircle(svgId, progress, widths, heights, color) {
         .attr("d", progressArcGray)
         .attr("fill", 'gray')
         .attr("stroke", "white")       // Border color
-        .attr("stroke-width", 1);   
+        .attr("stroke-width", 1);
 
     const progressArc = d3.arc()
         .innerRadius(radius - 80)
@@ -57,7 +60,7 @@ function drawSemicircle(svgId, progress, widths, heights, color) {
         .attr("d", progressArc)
         .attr("fill", 'green')
         .attr("stroke", "white")       // Border color
-        .attr("stroke-width", 1); 
+        .attr("stroke-width", 1);
 
 }
-drawSemicircle("svg3", 1 / 100, 400, 550, 'gray');  // Example progress 25%
+drawSemicircle("svg3", 1 / 100, 400, 400, 'gray');  // Example progress 25%
